@@ -1,0 +1,120 @@
+@Metadata.layer: #CORE
+
+@UI: {
+  headerInfo: {
+    // Defines object page header: title, subtitle, and image
+    typeName: 'Trip',
+    typeNamePlural: 'Trips',
+    // Main title displayed on object page
+    title: { type: #STANDARD, value: 'TripName' },
+    // Secondary text under the title (ID of the product)
+    description: { type: #STANDARD, value: 'TripName' },
+     // Image displayed in the header (main product image)
+    imageUrl: 'ImageFile'
+    },
+
+   selectionVariant: [{ qualifier: 'Default',
+                        text:      'Default View' }],
+
+   presentationVariant: [{
+     // Defines how data is displayed in the list (table view)
+     visualizations:    [{ type: #AS_LINEITEM }],
+     // Default sorting of products in the list
+     sortOrder:         [ { by: 'DateFr',     direction: #ASC },  // show according to start date
+                          { by: 'TripName',    direction: #ASC } ]  // then alphabetically
+  }]
+}
+
+
+annotate entity ZC_KLV_TRIP with
+{
+  @UI.facet: [ { id:              'GeneralInfo',
+              // Main section on object page
+              purpose:         #STANDARD,
+              type:            #COLLECTION,
+              label:           'Trip delails',
+              position:        10 },
+            { id:              'FieldGroup',
+              // Group of fields inside General Info
+              purpose:         #STANDARD,
+              type:            #IDENTIFICATION_REFERENCE,
+              label:           'Main Data',
+              parentId:        'GeneralInfo',
+              position:        10 },
+            { id:              'DaysTab',
+              // Table with days description (association)
+              purpose:         #STANDARD,
+              type:            #LINEITEM_REFERENCE,
+              label:           'Days description',
+              position:        20,
+              targetElement:   '_Days'} ]
+
+      // Adds action button on object page
+    @UI: {  identification: [ { position:   01,
+                                label:      '🛒 Book trip',
+                                type:       #FOR_ACTION,
+                                dataAction: 'book' } ] }
+
+  @UI: { hidden: true }
+  Tripuuid;
+  @UI: { hidden: true }
+  Tripid;
+  @UI: { lineItem:       [ { position: 10, label: 'Trip Name' } ],
+       identification: [ { position: 10, label: 'Trip Name' } ],
+       selectionField: [ { position: 10 } ] }
+  TripName;
+  @UI: { lineItem:       [ { position: 50, label: 'Date from' } ],
+        identification: [ { position: 50, label: 'Date from' } ],
+        selectionField: [ { position: 50 } ] }
+  DateFr;
+  @UI: { lineItem:       [ { position: 60, label: 'Date till' } ],
+       identification: [ { position: 60, label: 'Date till' } ],
+       selectionField: [ { position: 60 } ] }
+  DateTo;
+  @UI: { lineItem:       [ { position: 40, label: 'Seats available' } ],
+    identification: [ { position: 40, label: 'Seats available' } ] }
+  SeatAvail;
+  @UI.dataPoint: { // Visualizes rating as stars
+              visualization: #RATING,
+              targetValue: 3,
+              title: 'Difficulty' }
+
+  @UI: { lineItem:       [ { position: 80, type: #AS_DATAPOINT, label: 'Difficulty' } ],
+         identification: [ { position: 80, label: 'Difficulty' } ],
+         selectionField: [ { position: 80 } ] }
+  Difficulty;
+  @UI: { lineItem:       [ { position: 20, label: 'From' } ],
+    identification: [ { position: 20, label: 'From' } ],
+    selectionField: [ { position: 20 } ] }
+  LocFr;
+  @UI: { lineItem:       [ { position: 30, label: 'Destination' } ],
+    identification: [ { position: 30, label: 'Destionation' } ],
+    selectionField: [ { position: 30 } ] }
+  LotTo;
+  //OnedayTrip,
+  @EndUserText.label: 'Price'
+  @UI: { lineItem:       [ { position: 70, label: 'Price' } ],
+    identification: [ { position: 70, label: 'Price' } ],
+    selectionField: [ { position: 70 } ] }
+  Price;
+  @UI.hidden: true
+  Currencycode;
+  @UI.hidden: true
+  LastChangedAt;
+  @UI: { lineItem: [ { position: 5,
+                    label: 'Photo' } ],
+         identification: [ { position: 5, label: 'Photo' } ] }
+  //  @EndUserText.label: 'Photo'
+  //  ImageUrl;
+  //  @UI.hidden: true
+  ImageFile;
+  @UI.hidden: true
+  MimeType;
+  @UI.hidden: true
+  FileName;
+
+//  @UI.lineItem: [{ position: 10, label: 'Trigger Actions' }]
+//  @UI.identification: [{ position: 10, label: 'Trigger Actions' }]
+//  
+
+}

@@ -1,0 +1,38 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: { // Defines object page header for days
+                typeName:       'Day',
+                typeNamePlural: 'Days',
+                // Title shown on object page (taken from associated product)
+                title:          { type: #STANDARD,
+                                  value: 'DayDesc' }
+  }
+}
+annotate entity ZC_KLV_TRIP_DAYS with
+{
+  @UI.facet: [ { id:       'Daysdetails',
+                  // Section on object page for image fields
+                  type:     #IDENTIFICATION_REFERENCE,
+                  label:    'Days details',
+                  position: 10 } ]
+  @UI: { hidden: true }
+  Tripuuid;
+  @UI: { hidden: true }
+  Dayuuid;
+  @UI: { hidden: true }
+  Tripid;
+  @UI: { hidden: true }
+  Dayid;
+  @UI: { lineItem:       [ { position: 20, label: 'Day description' } ],
+  identification: [ { position: 20, label: 'Day description' } ] }
+  DayDesc;
+  @UI: { lineItem:       [ { position: 10, label: 'Day date' } ],
+  identification: [ { position: 10, label: 'Day date' } ] }
+  DateDay;
+  @UI: { lineItem:       [ { position: 30, label: 'Locations' } ],
+  identification: [ { position: 30, label: 'Locations' } ] }
+  Places;
+  @UI: { hidden: true }
+  LastChangedAt;
+
+}

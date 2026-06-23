@@ -1,0 +1,108 @@
+managed implementation in class zbp_t_klv_trip unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZT_KLV_TRIP alias Trip
+persistent table zklv_trip
+draft table zklv_trip_d
+lock master
+total etag LastChangedAt
+authorization master ( instance, global )
+//etag master LastChangedAt
+{
+  create( features : global );
+  update( features : global );
+  delete( features : global );
+  field ( numbering : managed, readonly ) Tripuuid;
+  field ( readonly ) Tripid;
+  association _Book { create; with draft; }
+  association _Days { create; with draft; }
+
+  mapping for zklv_trip
+    {
+      tripuuid      = trip_uuid;
+      tripid        = tripid;
+      tripname      = trip_name;
+      datefr        = date_fr;
+      dateto        = date_to;
+      seatavail     = seat_avail;
+      difficulty    = difficulty;
+      locfr         = loc_fr;
+      lotto         = lot_to;
+      onedaytrip    = oneday_trip;
+      price         = price;
+//      imageurl      = image_url;
+//      ImageType     = image_type;
+      ImageFile     = image_file;
+      MimeType      = mime_type;
+      FileName      = file_name;
+      currencycode  = currencycode;
+      lastchangedat = last_changed_at;
+    }
+
+  draft action Edit;
+  draft action Resume;
+  draft action Discard;
+  draft action Activate optimized;
+  draft determine action Prepare;
+
+   // Custom action to book the trip
+  action book parameter ZA_KLV_BOOKING result [1] $self;
+}
+
+define behavior for ZT_KLV_BOOKING alias Book
+persistent table zklv_booking
+draft table zklv_booking_d
+lock dependent by _Trip
+authorization dependent by _Trip
+etag master LastChangedAt
+{
+  update;
+  delete;
+  field ( readonly ) Tripuuid, LastChangedAt,  Bookid, Tripid;
+  field ( numbering : managed, readonly ) Bookuuid;
+  association _Trip { with draft; }
+
+  mapping for zklv_booking
+    {
+      tripuuid      = trip_uuid;
+      bookuuid      = book_uuid;
+      bookid        = bookid;
+      tripid        = tripid;
+      personcnt     = person_cnt;
+      customername  = customer_name;
+      phonenumber   = phone_number;
+      status        = status;
+      createdby     = created_by;
+      createdat     = created_at;
+      lastchangedat = last_changed_at;
+    }
+
+}
+
+define behavior for ZT_KLV_TRIP_DAYS alias Day
+persistent table zklv_trip_days
+draft table zklv_trip_days_d
+lock dependent by _Trip
+authorization dependent by _Trip
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+  field ( numbering : managed, readonly ) Dayuuid;
+  field ( readonly ) Tripuuid, Tripid, Dayid, LocalLastChangedAt, LastChangedAt;
+  association _Trip { with draft; }
+
+  mapping for zklv_trip_days
+    {
+      dayuuid            = day_uuid;
+      tripuuid           = trip_uuid;
+      tripid             = tripid;
+      dayid              = dayid;
+      daydesc            = day_desc;
+      dateday            = date_day;
+      places             = places;
+      lastchangedat      = last_changed_at;
+      localLastChangedAt = local_last_changed_at;
+    }
+}

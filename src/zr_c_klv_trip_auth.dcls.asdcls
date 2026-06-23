@@ -1,0 +1,10 @@
+@EndUserText.label: 'Access control for Trip consumption view'
+@MappingRole: true
+define role ZR_C_KLV_TRIP_AUTH {
+    grant
+        select
+            on
+                ZC_KLV_TRIP
+                     where inheriting conditions from entity ZT_KLV_TRIP;
+                        
+}

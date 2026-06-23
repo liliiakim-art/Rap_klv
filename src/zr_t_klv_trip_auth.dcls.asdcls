@@ -1,0 +1,10 @@
+@EndUserText.label: 'Access control for Trip'
+@MappingRole: true
+define role ZR_T_KLV_TRIP_AUTH {
+    grant
+        select
+            on
+                ZT_KLV_TRIP;
+                   
+                        
+}

@@ -1,0 +1,7 @@
+@EndUserText.label: 'Service definition for Trip'
+define service ZC_KLV_UI_TRIP {
+  expose ZC_KLV_TRIP;
+  expose ZC_KLV_TRIP_DAYS;
+  expose ZC_KLV_BOOKING;
+  expose ZC_KLV_DIFFICULTY_VH;
+}

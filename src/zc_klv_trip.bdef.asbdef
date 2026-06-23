@@ -1,0 +1,36 @@
+projection;
+//strict ( 2 );
+use draft;
+
+define behavior for ZC_KLV_TRIP alias Trip
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Edit;
+  use action Resume;
+  use action Discard;
+  use action Activate;
+  use action Prepare;
+  use action book;
+
+  use association _Book { create; with draft; }
+  use association _Days { create; with draft; }
+}
+
+define behavior for ZC_KLV_BOOKING alias Book
+{
+  use update;
+  use delete;
+
+  use association _Trip { with draft; }
+}
+
+define behavior for ZC_KLV_TRIP_DAYS alias Day
+{
+  use update;
+  use delete;
+
+  use association _Trip { with draft; }
+}
