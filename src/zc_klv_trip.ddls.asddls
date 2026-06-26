@@ -20,6 +20,7 @@ define root view entity ZC_KLV_TRIP
       @EndUserText.label: 'Seats available'
       SeatAvail,
       @EndUserText.label: 'Difficulty'
+      @ObjectModel.text.element: ['Difficulty']
       @Consumption.valueHelpDefinition:  [{ entity: { name: 'ZC_KLV_DIFFICULTY_VH', element: 'DomainValue' } }] 
       Difficulty,
       @EndUserText.label: 'From location'

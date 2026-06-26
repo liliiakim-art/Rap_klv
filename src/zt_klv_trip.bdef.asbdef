@@ -7,12 +7,12 @@ persistent table zklv_trip
 draft table zklv_trip_d
 lock master
 total etag LastChangedAt
-authorization master ( instance, global )
+authorization master ( global ) //( instance, global )
 //etag master LastChangedAt
 {
-  create( features : global );
-  update( features : global );
-  delete( features : global );
+  create(features : global);
+  update;
+  delete;
   field ( numbering : managed, readonly ) Tripuuid;
   field ( readonly ) Tripid;
   association _Book { create; with draft; }
@@ -61,6 +61,10 @@ etag master LastChangedAt
   delete;
   field ( readonly ) Tripuuid, LastChangedAt,  Bookid, Tripid;
   field ( numbering : managed, readonly ) Bookuuid;
+
+  validation check_empty_field on save { field CustomerName, PersonCnt, PhoneNumber; create; update; } // Checks mandatory fields
+  validation validate_personcnt on save { field PersonCnt; create; update; } // Validates PersonCnt
+
   association _Trip { with draft; }
 
   mapping for zklv_booking
